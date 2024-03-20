@@ -1,7 +1,7 @@
-import express, { Application, Request, Response } from "express";
+import express, { Application, Request, Response,NextFunction} from "express";
 import cors from "cors";
-import { userRoutes } from "./app/modules/User/user.routes";
-import { AdminRoutes } from "./app/modules/Admin/admin.route";
+import router from "./app/routes";
+import httpStatus from "http-status";
 
 const app: Application = express();
 
@@ -20,7 +20,17 @@ app.get("/", (req: Request, res: Response) => {
   });
 });
 
-app.use("/api/v1/user", userRoutes);
-app.use("/api/v1/admin", AdminRoutes);
+app.use('/api/v1',router)
+
+app.use((err,req:Request,res:Response,next:NextFunction)=>{
+  res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+    success:false,
+    message: err.message ||'something went wrong!',
+    error:err
+  })
+})
+
+
+
 
 export default app;
