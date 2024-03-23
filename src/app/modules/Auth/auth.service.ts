@@ -1,14 +1,15 @@
-import jwt from "jsonwebtoken";
+import jwt, { Secret } from "jsonwebtoken";
 import { jwtHelpers } from "../../../helpers/jwtHelpers";
 import prisma from "../../../shared/prisma";
 import * as bcrypt from "bcrypt";
 import { UserStatus } from "@prisma/client";
+import config from "../../../config";
 
 const loginUser = async (payload: { email: string; password: string }) => {
   const userData = await prisma.user.findUniqueOrThrow({
     where: {
       email: payload.email,
-      status:UserStatus.ACTIVE
+      status: UserStatus.ACTIVE,
     },
   });
   const isCorrectPassword = await bcrypt.compare(
@@ -23,8 +24,8 @@ const loginUser = async (payload: { email: string; password: string }) => {
       email: userData.email,
       role: userData.role,
     },
-    "accessTokenSecretKey",
-    "5m"
+    config.jwt.jwt_secret as Secret,
+    config.jwt.expires_in as string
   );
 
   const refreshToken = jwtHelpers.generateToken(
@@ -32,8 +33,8 @@ const loginUser = async (payload: { email: string; password: string }) => {
       email: userData.email,
       role: userData.role,
     },
-    "refreshTokenSecretKey",
-    "30d"
+    config.jwt.refresh_token_secret as Secret,
+        config.jwt.refresh_token_expires_in as string
   );
 
   return {
@@ -47,33 +48,32 @@ const loginUser = async (payload: { email: string; password: string }) => {
 const refreshToken = async (token: string) => {
   let decodedData;
   try {
-      decodedData = jwtHelpers.verifyToken(token, 'refreshTokenSecretKey');
-  }
-  catch (err) {
-      throw new Error("You are not authorized!")
+    decodedData = jwtHelpers.verifyToken(token, config.jwt.refresh_token_secret as Secret);
+  } catch (err) {
+    throw new Error("You are not authorized!");
   }
 
   const userData = await prisma.user.findUniqueOrThrow({
-      where: {
-          email: decodedData.email,
-          status: UserStatus.ACTIVE
-      }
+    where: {
+      email: decodedData.email,
+      status: UserStatus.ACTIVE,
+    },
   });
 
-  const accessToken = jwtHelpers.generateToken({
+  const accessToken = jwtHelpers.generateToken(
+    {
       email: userData.email,
-      role: userData.role
-  },
-      "accessTokenSecretKey",
-      "5m"
+      role: userData.role,
+    },
+    config.jwt.jwt_secret as Secret,
+    config.jwt.expires_in as string
   );
 
   return {
-      accessToken,
-      needPasswordChange: userData.needPasswordChange
+    accessToken,
+    needPasswordChange: userData.needPasswordChange,
   };
-
-}
+};
 export const AuthService = {
   loginUser,
   refreshToken,
