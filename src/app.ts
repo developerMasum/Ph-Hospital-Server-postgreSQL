@@ -1,9 +1,12 @@
-import express, { Application, Request, Response,NextFunction} from "express";
+import express, { Application, Request, Response, NextFunction } from "express";
 import cors from "cors";
 import router from "./app/routes";
-import httpStatus from "http-status";
+import globalErrorHandler from "./app/middlewares/globalErrorHandler";
+import notFoundRoute from "./app/middlewares/notFoundRoute";
+import cookieParser from "cookie-parser";
 
 const app: Application = express();
+app.use(cookieParser())
 
 // PARSER
 app.use(cors());
@@ -20,16 +23,10 @@ app.get("/", (req: Request, res: Response) => {
   });
 });
 
-app.use('/api/v1',router)
+app.use("/api/v1", router);
 
-app.use((err,req:Request,res:Response,next:NextFunction)=>{
-  res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-    success:false,
-    message: err.message ||'something went wrong!',
-    error:err
-  })
-})
-
+app.use(globalErrorHandler);
+app.use(notFoundRoute);
 
 
 
