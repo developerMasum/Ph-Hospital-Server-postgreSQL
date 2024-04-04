@@ -6,6 +6,8 @@ export type IPatientFilterRequest = {
   contactNo?: string | undefined;
 };
 
+
+
 type IPatientHealthData = {
   gender: Gender
   dateOfBirth: string
@@ -18,12 +20,13 @@ type IPatientHealthData = {
   dietaryPreferences?: string
   pregnancyStatus?: boolean
   mentalHealthHistory?: string
-  immunizationStatus?: string
+  immunizationStatus?: boolean
   hasPastSurgeries?: boolean
   recentAnxiety?: boolean
   recentDepression?: boolean
   maritalStatus?: MaritalStatus
 }
+
 
 type IMedicalReport = {
   reportName: string
