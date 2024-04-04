@@ -77,8 +77,8 @@ model Patient {
   updatedAt     DateTime @updatedAt
 
   user             User              @relation(references: [email], fields: [email])
-  patientHelthData PatientHelthData?
-  MedicalReport    MedicalReport[]
+  patientHealthData PatientHealthData?
+  medicalReport    MedicalReport[]
 
   @@map("patients")
 }
@@ -102,7 +102,7 @@ model DoctorSpecialties {
   @@map("doctor_specialities")
 }
 
-model PatientHelthData {
+model PatientHealthData {
   id                  String        @id @default(uuid())
   patientId           String        @unique
   patient             Patient       @relation(fields: [patientId], references: [id])
@@ -125,7 +125,7 @@ model PatientHelthData {
   createdAt           DateTime      @default(now())
   updatedAt           DateTime      @updatedAt
 
-  @@map("patientHelthDatas")
+  @@map("patientHealthDatas")
 }
 
 model MedicalReport {
