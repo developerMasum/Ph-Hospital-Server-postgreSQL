@@ -99,9 +99,9 @@ const updateIntoDB = async (
     },
   });
 
-  const result = await prisma.$transaction(async (tc) => {
+  await prisma.$transaction(async (tc) => {
     // update patient data here
-    const updatedPatient = await tc.patient.update({
+    await tc.patient.update({
       where: {
         id,
       },
@@ -128,7 +128,7 @@ const updateIntoDB = async (
     }
 
     if (medicalReport) {
-      const report = await tc.medicalReport.create({
+      await tc.medicalReport.create({
         data: {
           ...medicalReport,
           patientId: patientInfo.id,
@@ -140,10 +140,10 @@ const updateIntoDB = async (
     where: {
       id: patientInfo.id,
     },
-    include:{
-      patientHealthData:true,
-      medicalReport: true
-    }
+    include: {
+      patientHealthData: true,
+      medicalReport: true,
+    },
   });
   return responseData;
 };
