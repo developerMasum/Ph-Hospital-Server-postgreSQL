@@ -7,7 +7,7 @@ import { doctorScheduleController } from './doctorSchedule.controller';
 const router = express.Router();
 
 router.post('/',
-auth(UserRole.ADMIN,UserRole.SUPER_ADMIN),
+auth(UserRole.DOCTOR),
 doctorScheduleController.insertIntoDB)
 
 export const DoctorScheduleRoutes = router;

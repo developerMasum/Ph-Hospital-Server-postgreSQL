@@ -7,7 +7,9 @@ import { doctorSchedule } from "./doctorSchedule.service";
 
 
 const insertIntoDB = async (req: Request, res: Response) => {
-  const result = await doctorSchedule.insertIntoDB(req.body);
+    const user = req.user;
+   
+  const result = await doctorSchedule.insertIntoDB(user,req.body);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
