@@ -11,6 +11,9 @@ auth(UserRole.DOCTOR),
 doctorScheduleController.insertIntoDB)
 
 
-
+router.get('/my-schedule',
+    auth(UserRole.DOCTOR),
+doctorScheduleController.getMySchedule
+)
 
 export const DoctorScheduleRoutes = router;
