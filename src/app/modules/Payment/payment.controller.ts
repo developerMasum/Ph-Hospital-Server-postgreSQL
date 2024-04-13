@@ -6,8 +6,8 @@ import { paymentService } from "./payment.service";
 
 const initPayment = catchAsync(async (req: Request, res: Response) => {
     
-  
-    const result = await paymentService.initPayment();
+  const {appointmentId} = req.params
+    const result = await paymentService.initPayment(appointmentId);
   
     sendResponse(res, {
       statusCode: httpStatus.OK,
