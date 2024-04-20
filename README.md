@@ -21,7 +21,7 @@ PH Health-Care Hospital
 
 ## Screenshots
 
-![ER Diagram](https://i.ibb.co/7XCdg3g/PH-Health-Care-ERD-2-page-0001.jpg)
+[ER Diagram](https://i.ibb.co/7XCdg3g/PH-Health-Care-ERD-2-page-0001.jpg)
 
 
 ## Features
