@@ -21,7 +21,7 @@ PH Health-Care Hospital
 
 ## Screenshots
 
-[ER Diagram](https://i.ibb.co/7XCdg3g/PH-Health-Care-ERD-2-page-0001.jpg)
+![ER Diagram](https://i.postimg.cc/cHxRngSx/PH-Health-Care-ERD-2-page-0001.jpg)
 
 
 ## Features
@@ -112,3 +112,10 @@ To run this project, you'll need to set up the following environment variables i
 - `FAILED_URL`
 - `SSL_PAYMENT_API`
 - `SSL_VALIDATION_API`
+
+
+
+
+## Support
+
+For support, email md.masum0058@gmail.com
